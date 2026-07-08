@@ -68,9 +68,22 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 .logo__mark { width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px; }
 .logo__text { line-height: 1.1; }
 .logo small { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .14em; color: var(--ink-soft); text-transform: uppercase; }
-.nav { display: flex; gap: 22px; margin-left: auto; }
-.nav a { color: var(--ink); text-decoration: none; font-weight: 600; font-size: 15px; }
-.nav a:hover { color: var(--accent); }
+.nav { display: flex; gap: 10px; margin-left: auto; }
+.nav a {
+  color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px;
+  padding: 9px 16px; border-radius: 11px; background: #eef3f8;
+  box-shadow: 0 3px 0 #c9d6e2, 0 4px 9px rgba(20,36,61,.10);
+  transition: transform .12s ease, box-shadow .12s ease, background .15s ease, color .15s ease;
+}
+.nav a:hover {
+  color: var(--accent); background: #e6f1fb;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 0 #b7cde3, 0 9px 16px rgba(20,36,61,.16);
+}
+.nav a:active {
+  transform: translateY(3px);
+  box-shadow: 0 0 0 #b7cde3, 0 1px 3px rgba(20,36,61,.16);
+}
 .header__contact { display: flex; align-items: center; gap: 14px; }
 .header__phone { font-weight: 800; color: var(--ink); text-decoration: none; white-space: nowrap; }
 .header__phone:hover { color: var(--accent); }
@@ -210,6 +223,15 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   width: 24px; height: 24px; border-radius: 50%;
   background: var(--accent); color: #fff; font-size: 14px; font-weight: 800;
   display: flex; align-items: center; justify-content: center;
+}
+
+/* Средние экраны: ужимаем объёмные кнопки меню, чтобы всё влезло в шапку */
+@media (min-width: 961px) and (max-width: 1100px) {
+  .header__inner { gap: 14px; }
+  .nav { gap: 7px; }
+  .nav a { padding: 8px 11px; font-size: 14px; }
+  .header__contact { gap: 10px; }
+  .btn--header { padding: 10px 14px; }
 }
 
 /* ---------- Мобильная версия ---------- */
