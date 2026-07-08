@@ -131,13 +131,25 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 .object b { position: relative; z-index: 1; padding: 18px 20px; font-size: 19px; }
 
 /* ---------- Портфолио ---------- */
-.works { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
-.work { border-radius: var(--radius); overflow: hidden; background: var(--bg); border: 1px solid var(--line); }
-.work__img { aspect-ratio: 4/3; background: var(--bg-soft); }
-.work__img svg, .work__img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.work__body { padding: 18px 20px 22px; }
-.work__body b { font-size: 17px; }
-.work__body p { color: var(--ink-soft); font-size: 14.5px; margin-top: 6px; }
+.works { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; }
+.work { border-radius: var(--radius); overflow: hidden; background: var(--bg); border: 1px solid var(--line); transition: box-shadow .2s ease, transform .2s ease; }
+.work:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
+.work__banner { position: relative; aspect-ratio: 16/10; background: var(--accent); display: flex; align-items: center; justify-content: center; }
+.work__glyph { width: 62px; height: 62px; color: #fff; }
+.work__cat { position: absolute; top: 12px; left: 12px; background: rgba(255,255,255,.93); color: var(--accent-dark); font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+.work__img { aspect-ratio: 16/10; background: var(--bg-soft); }
+.work__img svg, .work__img img, .work__banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.work__body { padding: 16px 20px 20px; }
+.work__body b { font-size: 17px; display: block; }
+.work__addr { display: flex; align-items: center; gap: 6px; color: var(--ink-soft); font-size: 14px; margin-top: 7px; }
+.work__addr svg { width: 15px; height: 15px; flex-shrink: 0; }
+.work__tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+.tag { font-size: 13px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
+.tag--vent { background: #E6F1FB; color: #0C447C; }
+.tag--ac { background: #E1F5EE; color: #0F6E56; }
+.work__map { display: inline-flex; align-items: center; gap: 5px; font-size: 14px; font-weight: 700; color: var(--accent); text-decoration: none; }
+.work__map svg { width: 16px; height: 16px; }
+.work__map:hover { text-decoration: underline; }
 
 /* ---------- Этапы ---------- */
 .steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; counter-reset: step; }
