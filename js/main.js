@@ -25,6 +25,19 @@ if (statusBadge) {
   statusBadge.innerHTML = `<span class="status-badge__dot"></span>${isOpen ? 'Сейчас на связи — отвечаем быстро' : 'Сейчас нерабочее время — ответим Пн–Сб с 9:00'}`;
 }
 
+// Вкладки портфолио по городам
+const cityTabs = document.querySelectorAll('.city-tab');
+if (cityTabs.length) {
+  const panels = document.querySelectorAll('[data-city-panel]');
+  cityTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const city = tab.dataset.city;
+      cityTabs.forEach(t => t.classList.toggle('city-tab--active', t === tab));
+      panels.forEach(p => { p.hidden = p.dataset.cityPanel !== city; });
+    });
+  });
+}
+
 // Форма заявки: открываем WhatsApp фирмы с готовым сообщением из введённых данных
 const form = document.getElementById('leadForm');
 if (form) {
