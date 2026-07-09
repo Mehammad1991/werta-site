@@ -46,6 +46,9 @@ if (form) {
     const name = form.elements.name.value.trim();
     const phone = form.elements.phone.value.trim();
     const text = encodeURIComponent(`Здравствуйте! Меня зовут ${name}. Хочу получить расчёт стоимости. Мой телефон: ${phone}`);
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+    // location.href вместо window.open: на части мобильных браузеров (особенно iOS Safari
+    // и встроенные webview) window.open из submit-обработчика блокируется как всплывающее
+    // окно, и заявка молча теряется. Прямая навигация такому блокированию не подвержена.
+    location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
   });
 }

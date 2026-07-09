@@ -114,6 +114,12 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   background:
     linear-gradient(100deg, rgba(11,20,37,.92) 18%, rgba(16,35,62,.62) 52%, rgba(11,20,37,.42) 100%),
     url('../img/hero.jpg') center/cover no-repeat;
+  background-image:
+    linear-gradient(100deg, rgba(11,20,37,.92) 18%, rgba(16,35,62,.62) 52%, rgba(11,20,37,.42) 100%),
+    image-set(url('../img/hero.webp') type('image/webp'), url('../img/hero.jpg') type('image/jpeg'));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   color: #fff;
   padding: 110px 0 90px;
 }
@@ -163,7 +169,8 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   content: ""; position: absolute; inset: 0;
   background: linear-gradient(180deg, transparent 40%, rgba(10,25,40,.82));
 }
-.object > svg, .object > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.object > svg, .object > img, .object > picture { position: absolute; inset: 0; width: 100%; height: 100%; }
+.object picture img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .object b { position: relative; z-index: 1; padding: 18px 20px; font-size: 19px; }
 .photo-credit { margin-top: 14px; font-size: 11.5px; color: var(--ink-soft); opacity: .7; }
 
