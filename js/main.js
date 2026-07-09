@@ -2,6 +2,20 @@
 // Номер фирмы для WhatsApp (цифры без «+»)
 const WHATSAPP_NUMBER = '79285145049';
 
+// Цели в Яндекс.Метрике — считаем ключевые касания лида
+function ymGoal(name) {
+  if (typeof window.ym === 'function') { window.ym(44147844, 'reachGoal', name); }
+}
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a');
+  if (!a) return;
+  const href = a.getAttribute('href') || '';
+  if (href.includes('kontakty')) ymGoal('cta_click');
+  else if (href.includes('wa.me')) ymGoal('whatsapp_click');
+  else if (href.startsWith('tel:')) ymGoal('call_click');
+  else if (href.includes('t.me/')) ymGoal('telegram_click');
+});
+
 // Мобильное меню
 const burger = document.getElementById('burger');
 const nav = document.getElementById('nav');
@@ -46,6 +60,7 @@ if (form) {
     const name = form.elements.name.value.trim();
     const phone = form.elements.phone.value.trim();
     const text = encodeURIComponent(`Здравствуйте! Меня зовут ${name}. Хочу получить расчёт стоимости. Мой телефон: ${phone}`);
+    ymGoal('lead_form_submit');
     // location.href вместо window.open: на части мобильных браузеров (особенно iOS Safari
     // и встроенные webview) window.open из submit-обработчика блокируется как всплывающее
     // окно, и заявка молча теряется. Прямая навигация такому блокированию не подвержена.
