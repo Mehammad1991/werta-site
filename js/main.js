@@ -53,6 +53,9 @@ if (cityTabs.length) {
 }
 
 // Форма заявки: открываем WhatsApp фирмы с готовым сообщением из введённых данных
+// + резервная копия на почту через FormSubmit (без бэкенда, ключ не нужен —
+// только email в URL; при первой реальной заявке FormSubmit пришлёт на почту
+// письмо с подтверждением адреса, его нужно один раз открыть и подтвердить).
 const form = document.getElementById('leadForm');
 if (form) {
   form.addEventListener('submit', (e) => {
@@ -61,9 +64,24 @@ if (form) {
     const phone = form.elements.phone.value.trim();
     const text = encodeURIComponent(`Здравствуйте! Меня зовут ${name}. Хочу получить расчёт стоимости. Мой телефон: ${phone}`);
     ymGoal('lead_form_submit');
-    // location.href вместо window.open: на части мобильных браузеров (особенно iOS Safari
-    // и встроенные webview) window.open из submit-обработчика блокируется как всплывающее
-    // окно, и заявка молча теряется. Прямая навигация такому блокированию не подвержена.
-    location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+    const goToWhatsapp = () => {
+      // location.href вместо window.open: на части мобильных браузеров (особенно iOS Safari
+      // и встроенные webview) window.open из submit-обработчика блокируется как всплывающее
+      // окно, и заявка молча теряется. Прямая навигация такому блокированию не подвержена.
+      location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${text}`;
+    };
+    const emailBackup = fetch('https://formsubmit.co/ajax/dadaev1991@bk.ru', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Новая заявка с сайта WERTA',
+        Имя: name,
+        Телефон: phone,
+        Страница: location.href
+      })
+    }).catch(() => {});
+    // Не ждём email дольше 1.2с — почта уходит в фоне, но клиент не должен
+    // ждать медленный сторонний сервис, чтобы попасть в WhatsApp.
+    Promise.race([emailBackup, new Promise(resolve => setTimeout(resolve, 1200))]).then(goToWhatsapp);
   });
 }
