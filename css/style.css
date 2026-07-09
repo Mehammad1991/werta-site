@@ -281,6 +281,34 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 .form .btn { background: var(--ink); color: #fff; }
 .form .btn:hover { background: #000; }
 .form-note { font-size: 13.5px; color: rgba(255,255,255,.7); margin-top: 14px; }
+
+/* ---------- Квиз-калькулятор ---------- */
+.quiz { display: block; max-width: 620px; }
+.quiz__nav { min-height: 20px; }
+.quiz__back { background: none; border: 0; color: rgba(255,255,255,.75); font-size: 14px; cursor: pointer; padding: 0; font-family: inherit; }
+.quiz__back:hover { color: #fff; }
+.quiz__progress { height: 4px; background: rgba(255,255,255,.2); border-radius: 2px; margin: 10px 0 26px; overflow: hidden; }
+.quiz__progress-bar { display: block; height: 100%; width: 14%; background: #fff; transition: width .3s ease; }
+.quiz__step { margin-bottom: 28px; }
+.quiz--js .quiz__step { display: none; margin-bottom: 0; }
+.quiz--js .quiz__step.is-active { display: block; animation: quizFade .25s ease; }
+@keyframes quizFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.quiz__q { font-size: 19px; font-weight: 700; margin: 0 0 4px; }
+.quiz__hint { font-size: 13px; font-weight: 400; color: rgba(255,255,255,.7); margin-left: 4px; }
+.quiz__chips { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 4px; }
+.chip-input { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+.chip {
+  display: inline-flex; align-items: center; padding: 12px 20px; border-radius: 999px;
+  background: rgba(255,255,255,.14); border: 1.5px solid rgba(255,255,255,.3);
+  color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; user-select: none;
+  transition: background .15s, border-color .15s;
+}
+.chip:hover { border-color: rgba(255,255,255,.6); }
+.chip-input:checked + .chip { background: var(--ink); border-color: var(--ink); }
+.chip-input:focus-visible + .chip { outline: 3px solid rgba(255,255,255,.6); outline-offset: 2px; }
+.quiz__next { margin-top: 22px; }
+.quiz__step[data-step="7"] input { max-width: 360px; margin-bottom: 12px; display: block; }
+.quiz__step[data-step="7"] .btn { margin-top: 6px; }
 .messengers { display: flex; gap: 14px; margin-top: 26px; flex-wrap: wrap; }
 .messengers a {
   display: inline-flex; align-items: center; gap: 9px;
