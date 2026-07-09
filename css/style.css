@@ -54,6 +54,9 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 .btn--primary:hover { background: var(--accent-dark); }
 .btn--ghost { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 2px var(--accent); }
 .btn--ghost:hover { background: var(--accent); color: #fff; }
+.btn--wa { background: #25D366; color: #fff; }
+.btn--wa:hover { background: #1ebc59; }
+.cta-actions { display: flex; gap: 14px; flex-wrap: wrap; }
 
 /* ---------- Шапка ---------- */
 .header {
@@ -91,6 +94,20 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 .btn--header { padding: 11px 20px; font-size: 14px; }
 .burger { display: none; background: none; border: none; cursor: pointer; padding: 8px; }
 .burger span { display: block; width: 24px; height: 3px; background: var(--ink); margin: 5px 0; border-radius: 2px; }
+
+/* ---------- Мобильная sticky-панель связи ---------- */
+.mobile-cta {
+  display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  gap: 10px; padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+  background: #fff; border-top: 1px solid var(--line); box-shadow: 0 -6px 20px rgba(20,36,61,.10);
+}
+.mobile-cta a {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 13px 10px; border-radius: 10px; font-weight: 700; font-size: 14.5px; text-decoration: none;
+}
+.mobile-cta__whatsapp { background: #25D366; color: #fff; }
+.mobile-cta__call { background: var(--bg-soft); color: var(--ink); flex: 0 0 auto; width: 52px; padding: 13px; }
+.mobile-cta svg { width: 19px; height: 19px; flex-shrink: 0; }
 
 /* ---------- Hero ---------- */
 .hero {
@@ -280,6 +297,8 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   .header__contact { margin-left: 0; }
   .btn--header { display: none; }
   .form { grid-template-columns: 1fr; }
+  .mobile-cta { display: flex; }
+  body { padding-bottom: 66px; }
 }
 @media (max-width: 600px) {
   .grid--3, .grid--4, .works, .objects, .features, .signs { grid-template-columns: 1fr; }
