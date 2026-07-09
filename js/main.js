@@ -16,6 +16,17 @@ document.addEventListener('click', (e) => {
   else if (href.includes('t.me/')) ymGoal('telegram_click');
 });
 
+// Слайд-шоу фона на первом экране — смена картинки каждые 5 секунд
+const heroSlides = document.querySelectorAll('.hero__slide');
+if (heroSlides.length > 1) {
+  let heroIndex = 0;
+  setInterval(() => {
+    heroSlides[heroIndex].classList.remove('is-active');
+    heroIndex = (heroIndex + 1) % heroSlides.length;
+    heroSlides[heroIndex].classList.add('is-active');
+  }, 5000);
+}
+
 // Мобильное меню
 const burger = document.getElementById('burger');
 const nav = document.getElementById('nav');
