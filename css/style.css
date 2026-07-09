@@ -168,6 +168,15 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 .photo-credit { margin-top: 14px; font-size: 11.5px; color: var(--ink-soft); opacity: .7; }
 
 /* ---------- Портфолио ---------- */
+.works-city + .works-city { margin-top: 44px; }
+.works-city__title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 20px; font-weight: 800; color: var(--ink); margin-bottom: 18px;
+}
+.works-city__count {
+  font-size: 13px; font-weight: 700; color: var(--accent-dark);
+  background: #E6F1FB; padding: 3px 11px; border-radius: 20px;
+}
 .works { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 22px; }
 .work { border-radius: var(--radius); overflow: hidden; background: var(--bg); border: 1px solid var(--line); transition: box-shadow .2s ease, transform .2s ease; }
 .work:hover { box-shadow: var(--shadow); transform: translateY(-3px); }
