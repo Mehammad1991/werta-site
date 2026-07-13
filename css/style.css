@@ -65,12 +65,37 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
-.header__inner { display: flex; align-items: center; gap: 28px; height: 72px; }
-.logo { display: flex; align-items: center; gap: 11px; font-size: 26px; font-weight: 800; letter-spacing: .06em; color: var(--ink); text-decoration: none; flex-shrink: 0; white-space: nowrap; }
+.header__inner { display: flex; align-items: center; gap: 28px; height: 90px; }
+.logo { display: flex; align-items: center; gap: 12px; font-size: 32px; font-weight: 800; letter-spacing: .06em; color: var(--ink); text-decoration: none; flex-shrink: 0; white-space: nowrap; }
 .logo b { color: var(--accent); }
-.logo__mark { width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px; }
+.logo__mark { width: 52px; height: 52px; flex-shrink: 0; border-radius: 11px; }
 .logo__text { line-height: 1.1; white-space: nowrap; }
 .logo small { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .14em; color: var(--ink-soft); text-transform: uppercase; }
+
+/* Слова услуг под названием сменяются в 3D (барабан-ролодекс) */
+.logo__roll { perspective: 520px; height: 20px; }
+.logo__roll-in {
+  position: relative; display: block; height: 100%;
+  transform-style: preserve-3d; will-change: transform;
+  animation: logoRoll 9s cubic-bezier(.62,0,.34,1) infinite;
+}
+.logo__roll-f {
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; white-space: nowrap; backface-visibility: hidden;
+  font-size: 13px; color: var(--accent);
+}
+.logo__roll-f:nth-child(1) { transform: rotateX(0deg)   translateZ(10px); }
+.logo__roll-f:nth-child(2) { transform: rotateX(90deg)  translateZ(10px); }
+.logo__roll-f:nth-child(3) { transform: rotateX(180deg) translateZ(10px); }
+.logo__roll-f:nth-child(4) { transform: rotateX(270deg) translateZ(10px); }
+@keyframes logoRoll {
+  0%, 18%   { transform: rotateX(0deg); }
+  25%, 43%  { transform: rotateX(-90deg); }
+  50%, 68%  { transform: rotateX(-180deg); }
+  75%, 93%  { transform: rotateX(-270deg); }
+  100%      { transform: rotateX(-360deg); }
+}
+@media (prefers-reduced-motion: reduce) { .logo__roll-in { animation: none; } }
 .nav { display: flex; gap: 10px; margin-left: auto; flex-wrap: nowrap; }
 .nav a {
   color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px;
@@ -358,9 +383,10 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 @media (max-width: 960px) {
   .grid--3, .grid--4, .works, .objects, .features { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: repeat(3, 1fr); }
+  .header__inner { height: 78px; }
   .nav { display: none; }
   .nav.open {
-    display: flex; position: absolute; top: 72px; left: 0; right: 0;
+    display: flex; position: absolute; top: 78px; left: 0; right: 0;
     flex-direction: column; background: #fff; padding: 20px;
     border-bottom: 1px solid var(--line); box-shadow: var(--shadow);
   }
@@ -379,8 +405,8 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   .header__inner { gap: 10px; }
   .header__contact { gap: 8px; margin-left: auto; }
   .header__phone { font-size: 14px; }
-  .logo { font-size: 22px; gap: 8px; }
-  .logo__mark { width: 34px; height: 34px; }
+  .logo { font-size: 26px; gap: 9px; }
+  .logo__mark { width: 42px; height: 42px; }
   .logo small { display: none; }
   .burger { padding: 6px; }
 }
