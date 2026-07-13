@@ -96,8 +96,28 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
     3px 3px 0 rgba(3, 10, 22, .4),
     4px 5px 7px rgba(0, 0, 0, .45);
 }
+
+/* Строка услуг под названием «переворачивается» в 3D (десктоп; на мобильных .logo small скрыт) */
+.logo__flip { perspective: 340px; height: 15px; }
+.logo__flip-in {
+  position: relative; display: block; height: 100%;
+  transform-style: preserve-3d; will-change: transform;
+  animation: logoFlip 5.5s ease-in-out infinite;
+}
+.logo__flip-f {
+  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; white-space: nowrap; backface-visibility: hidden;
+}
+.logo__flip-f--b { transform: rotateX(180deg); }
+@keyframes logoFlip {
+  0%, 44%  { transform: rotateX(0deg); }
+  54%, 94% { transform: rotateX(180deg); }
+  100%     { transform: rotateX(360deg); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .logo__name { animation: none; transform: none; }
+  .logo__flip-in { animation: none; transform: none; }
 }
 .nav { display: flex; gap: 10px; margin-left: auto; flex-wrap: nowrap; }
 .nav a {
