@@ -71,6 +71,34 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 .logo__mark { width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px; }
 .logo__text { line-height: 1.1; white-space: nowrap; }
 .logo small { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .14em; color: var(--ink-soft); text-transform: uppercase; }
+
+/* Объёмное 3D-название WERTA с плавным «покачиванием» */
+.logo__name {
+  display: inline-block; transform-style: preserve-3d; backface-visibility: hidden;
+  transform-origin: 50% 50%; will-change: transform;
+  text-shadow:
+    1px 1px 0 #c4cdd8,
+    2px 2px 0 #b3bdca,
+    3px 3px 0 #a2adbc,
+    4px 5px 6px rgba(20, 36, 61, .30);
+  animation: logoSway 4.5s ease-in-out infinite;
+}
+.logo:hover .logo__name { animation-play-state: paused; transform: perspective(460px) rotateY(0deg) rotateX(0deg) translateZ(6px); }
+@keyframes logoSway {
+  0%, 100% { transform: perspective(460px) rotateY(-15deg) rotateX(7deg); }
+  50%      { transform: perspective(460px) rotateY(15deg) rotateX(-4deg); }
+}
+/* В подвале — тёмный фон, поэтому тень названия делаем «в глубину» тёмной */
+.footer .logo__name {
+  text-shadow:
+    1px 1px 0 rgba(3, 10, 22, .6),
+    2px 2px 0 rgba(3, 10, 22, .5),
+    3px 3px 0 rgba(3, 10, 22, .4),
+    4px 5px 7px rgba(0, 0, 0, .45);
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo__name { animation: none; transform: none; }
+}
 .nav { display: flex; gap: 10px; margin-left: auto; flex-wrap: nowrap; }
 .nav a {
   color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px;
@@ -383,4 +411,116 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   .logo__mark { width: 34px; height: 34px; }
   .logo small { display: none; }
   .burger { padding: 6px; }
+}
+
+/* ---------- Плавающий виджет «Обратный звонок» ---------- */
+.cb {
+  position: fixed; right: 22px; bottom: 24px; z-index: 80;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+}
+
+.cb__fab {
+  position: relative; width: 62px; height: 62px; flex: 0 0 auto; border: none; cursor: pointer;
+  border-radius: 50%; color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 12px 28px rgba(20, 147, 214, .42);
+  display: flex; align-items: center; justify-content: center;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.cb__fab:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(20, 147, 214, .5); }
+.cb__fab svg { width: 27px; height: 27px; position: relative; z-index: 1; }
+.cb__fab::before {
+  content: ""; position: absolute; inset: 0; border-radius: 50%;
+  border: 2px solid var(--accent); animation: cbPulse 2s ease-out infinite;
+}
+.cb__ic--close { display: none; }
+.cb.is-open .cb__fab::before { display: none; }
+.cb.is-open .cb__ic--phone { display: none; }
+.cb.is-open .cb__ic--close { display: block; }
+@keyframes cbPulse {
+  0% { transform: scale(1); opacity: .55; }
+  100% { transform: scale(1.7); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .cb__fab::before { animation: none; display: none; } }
+
+/* Подсказка-приманка */
+.cb__bubble {
+  position: relative; max-width: 214px; background: #fff; color: var(--ink);
+  padding: 11px 32px 11px 14px; border-radius: 12px; font-size: 13.5px; font-weight: 600;
+  line-height: 1.35; box-shadow: var(--shadow); border: 1px solid var(--line); cursor: pointer;
+  animation: cbIn .3s ease both;
+}
+.cb__bubble::after {
+  content: ""; position: absolute; right: 22px; bottom: -7px; width: 13px; height: 13px;
+  background: #fff; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  transform: rotate(45deg);
+}
+.cb__bubble-close {
+  position: absolute; top: 5px; right: 7px; background: none; border: none; cursor: pointer;
+  font-size: 18px; line-height: 1; color: var(--ink-soft); padding: 2px;
+}
+@keyframes cbIn { from { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: none; } }
+
+/* Панель */
+.cb__panel {
+  position: relative; width: 306px; max-width: calc(100vw - 32px); background: #fff;
+  border-radius: 16px; border: 1px solid var(--line);
+  box-shadow: 0 20px 50px rgba(20, 36, 61, .25);
+  padding: 20px 18px 18px; animation: cbIn .22s ease both;
+}
+.cb__close {
+  position: absolute; top: 10px; right: 12px; background: none; border: none; cursor: pointer;
+  font-size: 24px; line-height: 1; color: var(--ink-soft); padding: 2px;
+}
+.cb__title { font-size: 19px; font-weight: 800; margin-bottom: 5px; }
+.cb__lead { font-size: 14px; color: var(--ink-soft); line-height: 1.45; margin-bottom: 15px; }
+.cb__form { display: flex; flex-direction: column; gap: 10px; }
+.cb__input {
+  width: 100%; padding: 13px 14px; font: inherit; font-size: 16px;
+  border: 1.5px solid var(--line); border-radius: 10px; background: var(--bg-soft); color: var(--ink);
+}
+.cb__input:focus { outline: none; border-color: var(--accent); background: #fff; }
+.cb__input--err { border-color: #e0484b; }
+.cb__submit {
+  width: 100%; padding: 14px; font: inherit; font-weight: 700; font-size: 15.5px; cursor: pointer;
+  color: #fff; border: none; border-radius: 10px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  transition: filter .15s ease;
+}
+.cb__submit:hover { filter: brightness(1.06); }
+.cb__consent { font-size: 11.5px; color: var(--ink-soft); line-height: 1.35; }
+
+/* Экран «заявка принята» */
+.cb__done { text-align: center; padding: 6px 0 2px; }
+.cb__done-icon {
+  width: 46px; height: 46px; margin: 0 auto 10px; border-radius: 50%;
+  background: #25D366; color: #fff; font-size: 25px; line-height: 46px; font-weight: 700;
+}
+.cb__done-title { font-size: 18px; font-weight: 800; margin-bottom: 5px; }
+.cb__done-text { font-size: 14px; color: var(--ink-soft); margin-bottom: 14px; }
+.cb__done-wa {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 11px 18px; border-radius: 10px; background: #25D366; color: #fff;
+  font-weight: 700; font-size: 14.5px; text-decoration: none;
+}
+
+/* Быстрые каналы */
+.cb__or {
+  display: flex; align-items: center; gap: 10px; margin: 15px 0 12px;
+  color: var(--ink-soft); font-size: 12.5px;
+}
+.cb__or::before, .cb__or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.cb__links { display: flex; gap: 8px; }
+.cb__chip {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 10px 6px; border-radius: 10px; font-weight: 700; font-size: 13.5px;
+  text-decoration: none; border: 1px solid var(--line); color: var(--ink); background: var(--bg-soft);
+}
+.cb__chip--wa { background: #25D366; color: #fff; border-color: #25D366; }
+.cb__chip--tg { background: #29a9eb; color: #fff; border-color: #29a9eb; }
+
+@media (max-width: 960px) {
+  .cb { right: 16px; bottom: calc(104px + env(safe-area-inset-bottom)); }
+  .cb__fab { width: 56px; height: 56px; }
+  .cb__fab svg { width: 24px; height: 24px; }
 }

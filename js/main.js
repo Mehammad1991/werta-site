@@ -171,3 +171,96 @@ if (form) {
     Promise.race([emailBackup, new Promise(resolve => setTimeout(resolve, 1200))]).then(goToWhatsapp);
   });
 }
+
+// Плавающий виджет «Обратный звонок за 30 секунд».
+// Клиент оставляет только телефон — заявка уходит на почту фирмы через FormSubmit
+// (тот же канал, что и основная форма). Если сервис недоступен — открываем WhatsApp
+// с готовым сообщением, чтобы лид не потерялся.
+const cb = document.getElementById('cbWidget');
+if (cb) {
+  const fab = document.getElementById('cbFab');
+  const panel = document.getElementById('cbPanel');
+  const bubble = document.getElementById('cbBubble');
+  const bubbleClose = document.getElementById('cbBubbleClose');
+  const cbClose = document.getElementById('cbClose');
+  const cbForm = document.getElementById('cbForm');
+  const cbDone = document.getElementById('cbDone');
+  const cbPhone = document.getElementById('cbPhone');
+
+  function openCb() {
+    cb.classList.add('is-open');
+    panel.hidden = false;
+    if (bubble) bubble.hidden = true;
+    fab.setAttribute('aria-expanded', 'true');
+    setTimeout(() => cbPhone && cbPhone.focus(), 120);
+    ymGoal('callback_open');
+  }
+  function closeCb() {
+    cb.classList.remove('is-open');
+    panel.hidden = true;
+    fab.setAttribute('aria-expanded', 'false');
+  }
+  fab.addEventListener('click', () => (cb.classList.contains('is-open') ? closeCb() : openCb()));
+  if (cbClose) cbClose.addEventListener('click', closeCb);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && cb.classList.contains('is-open')) closeCb();
+  });
+  document.addEventListener('click', (e) => {
+    if (cb.classList.contains('is-open') && !cb.contains(e.target)) closeCb();
+  });
+
+  // Подсказка-приманка появляется через 6 сек, один раз за сессию
+  if (bubble && !sessionStorage.getItem('werta_cb_seen')) {
+    setTimeout(() => { if (!cb.classList.contains('is-open')) bubble.hidden = false; }, 6000);
+    bubble.addEventListener('click', openCb);
+  }
+  if (bubbleClose) bubbleClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    bubble.hidden = true;
+    sessionStorage.setItem('werta_cb_seen', '1');
+  });
+
+  // Лёгкая маска телефона +7 (XXX) XXX-XX-XX
+  if (cbPhone) cbPhone.addEventListener('input', () => {
+    let d = cbPhone.value.replace(/\D/g, '');
+    if (d.startsWith('8')) d = '7' + d.slice(1);
+    if (d && !d.startsWith('7')) d = '7' + d;
+    d = d.slice(0, 11);
+    let out = d ? '+7' : '';
+    if (d.length > 1) out += ' (' + d.slice(1, 4);
+    if (d.length >= 4) out += ') ' + d.slice(4, 7);
+    if (d.length >= 7) out += '-' + d.slice(7, 9);
+    if (d.length >= 9) out += '-' + d.slice(9, 11);
+    cbPhone.value = out;
+  });
+
+  if (cbForm) cbForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const digits = (cbPhone.value.match(/\d/g) || []).join('');
+    if (digits.length < 11) { cbPhone.classList.add('cb__input--err'); cbPhone.focus(); return; }
+    cbPhone.classList.remove('cb__input--err');
+    const phone = cbPhone.value.trim();
+    const utm = getStoredUtm();
+    const utmLine = Object.entries(utm).map(([k, v]) => `${k}=${v}`).join(', ');
+    ymGoal('callback_request');
+
+    const showDone = () => { cbForm.hidden = true; cbDone.hidden = false; };
+    const waFallback = () => {
+      location.href = `https://wa.me/${WHATSAPP_NUMBER}?text=` +
+        encodeURIComponent(`Здравствуйте! Прошу перезвонить мне. Мой номер: ${phone}`);
+    };
+    const req = fetch('https://formsubmit.co/ajax/dadaev1991@bk.ru', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Обратный звонок с сайта WERTA',
+        Тип: 'Заказан обратный звонок',
+        Телефон: phone,
+        UTM: utmLine,
+        Страница: location.href
+      })
+    }).then((r) => (r && r.ok ? showDone() : waFallback())).catch(waFallback);
+    // Если FormSubmit долго молчит — не держим клиента, показываем «принято».
+    Promise.race([req, new Promise((res) => setTimeout(() => { showDone(); res(); }, 2500))]);
+  });
+}
