@@ -65,66 +65,12 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
-.header__inner { display: flex; align-items: center; gap: 28px; height: 100px; }
-.logo { display: flex; align-items: center; gap: 13px; font-size: 34px; font-weight: 800; letter-spacing: .06em; color: var(--ink); text-decoration: none; flex-shrink: 0; white-space: nowrap; }
+.header__inner { display: flex; align-items: center; gap: 28px; height: 72px; }
+.logo { display: flex; align-items: center; gap: 11px; font-size: 26px; font-weight: 800; letter-spacing: .06em; color: var(--ink); text-decoration: none; flex-shrink: 0; white-space: nowrap; }
 .logo b { color: var(--accent); }
-.logo__mark {
-  width: 58px; height: 58px; flex-shrink: 0; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--navy); color: #2aa9e2; font-size: 32px; font-weight: 800;
-  line-height: 1; letter-spacing: 0; box-shadow: inset 0 0 0 2px #2aa9e2;
-}
-.footer .logo__mark { background: #1d3151; }
+.logo__mark { width: 42px; height: 42px; flex-shrink: 0; border-radius: 10px; }
 .logo__text { line-height: 1.1; white-space: nowrap; }
 .logo small { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .14em; color: var(--ink-soft); text-transform: uppercase; }
-
-/* Объёмное 3D-название WERTA с плавным «покачиванием» */
-.logo__name {
-  display: inline-block; transform-style: preserve-3d; backface-visibility: hidden;
-  transform-origin: 50% 50%; will-change: transform;
-  text-shadow:
-    1px 1px 0 #c4cdd8,
-    2px 2px 0 #b3bdca,
-    3px 3px 0 #a2adbc,
-    4px 5px 6px rgba(20, 36, 61, .30);
-  animation: logoSway 4.5s ease-in-out infinite;
-}
-.logo:hover .logo__name { animation-play-state: paused; transform: perspective(460px) rotateY(0deg) rotateX(0deg) translateZ(6px); }
-@keyframes logoSway {
-  0%, 100% { transform: perspective(460px) rotateY(-15deg) rotateX(7deg); }
-  50%      { transform: perspective(460px) rotateY(15deg) rotateX(-4deg); }
-}
-/* В подвале — тёмный фон, поэтому тень названия делаем «в глубину» тёмной */
-.footer .logo__name {
-  text-shadow:
-    1px 1px 0 rgba(3, 10, 22, .6),
-    2px 2px 0 rgba(3, 10, 22, .5),
-    3px 3px 0 rgba(3, 10, 22, .4),
-    4px 5px 7px rgba(0, 0, 0, .45);
-}
-
-/* Строка услуг под названием «переворачивается» в 3D (десктоп; на мобильных .logo small скрыт) */
-.logo__flip { perspective: 340px; height: 15px; }
-.logo__flip-in {
-  position: relative; display: block; height: 100%;
-  transform-style: preserve-3d; will-change: transform;
-  animation: logoFlip 5.5s ease-in-out infinite;
-}
-.logo__flip-f {
-  position: absolute; left: 0; top: 0; width: 100%; height: 100%;
-  display: flex; align-items: center; white-space: nowrap; backface-visibility: hidden;
-}
-.logo__flip-f--b { transform: rotateX(180deg); }
-@keyframes logoFlip {
-  0%, 44%  { transform: rotateX(0deg); }
-  54%, 94% { transform: rotateX(180deg); }
-  100%     { transform: rotateX(360deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .logo__name { animation: none; transform: none; }
-  .logo__flip-in { animation: none; transform: none; }
-}
 .nav { display: flex; gap: 10px; margin-left: auto; flex-wrap: nowrap; }
 .nav a {
   color: var(--ink); text-decoration: none; font-weight: 700; font-size: 15px;
@@ -412,10 +358,9 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 @media (max-width: 960px) {
   .grid--3, .grid--4, .works, .objects, .features { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: repeat(3, 1fr); }
-  .header__inner { height: 86px; }
   .nav { display: none; }
   .nav.open {
-    display: flex; position: absolute; top: 86px; left: 0; right: 0;
+    display: flex; position: absolute; top: 72px; left: 0; right: 0;
     flex-direction: column; background: #fff; padding: 20px;
     border-bottom: 1px solid var(--line); box-shadow: var(--shadow);
   }
@@ -434,8 +379,8 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
   .header__inner { gap: 10px; }
   .header__contact { gap: 8px; margin-left: auto; }
   .header__phone { font-size: 14px; }
-  .logo { font-size: 27px; gap: 9px; }
-  .logo__mark { width: 44px; height: 44px; font-size: 25px; }
+  .logo { font-size: 22px; gap: 8px; }
+  .logo__mark { width: 34px; height: 34px; }
   .logo small { display: none; }
   .burger { padding: 6px; }
 }
