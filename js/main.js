@@ -35,6 +35,26 @@ if (burger && nav) {
   nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
 }
 
+// Прозрачная шапка над hero → матовая белая при прокрутке
+const headerEl = document.querySelector('.header');
+if (headerEl) {
+  const onHeaderScroll = () => headerEl.classList.toggle('header--solid', window.scrollY > 30);
+  onHeaderScroll();
+  window.addEventListener('scroll', onHeaderScroll, { passive: true });
+}
+
+// Лёгкий 3D-наклон логотипа за курсором (только устройства с мышью)
+const logoEl = document.querySelector('.header .logo');
+if (logoEl && window.matchMedia('(hover: hover)').matches) {
+  logoEl.addEventListener('mousemove', (e) => {
+    const r = logoEl.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width - 0.5;
+    const py = (e.clientY - r.top) / r.height - 0.5;
+    logoEl.style.transform = 'perspective(500px) rotateY(' + (px * 16).toFixed(1) + 'deg) rotateX(' + (-py * 16).toFixed(1) + 'deg)';
+  });
+  logoEl.addEventListener('mouseleave', () => { logoEl.style.transform = ''; });
+}
+
 // Индикатор "сейчас на связи" — по реальным часам работы Пн-Сб 09:00-18:00 (МСК, Дагестан = МСК)
 const statusBadge = document.getElementById('statusBadge');
 if (statusBadge) {
