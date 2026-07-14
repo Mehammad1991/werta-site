@@ -61,22 +61,15 @@ h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 14px; }
 /* ---------- Шапка ---------- */
 .header {
   position: sticky; top: 0; z-index: 50;
-  background: transparent;
-  border-bottom: 1px solid transparent;
-  transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease;
-}
-.header--solid {
-  background: rgba(255,255,255,.92);
+  background: rgba(255,255,255,.94);
   backdrop-filter: blur(10px);
-  border-bottom-color: var(--line);
+  border-bottom: 1px solid var(--line);
+  transition: box-shadow .3s ease;
 }
+.header--solid { box-shadow: 0 6px 22px rgba(20,36,61,.10); }
 .header__inner { display: flex; align-items: center; gap: 28px; height: 104px; transition: height .3s ease; }
 .logo { display: flex; align-items: center; gap: 14px; font-size: 38px; font-weight: 800; letter-spacing: .06em; color: var(--ink); text-decoration: none; flex-shrink: 0; white-space: nowrap; transition: transform .2s ease; }
 .logo b { color: var(--accent); }
-/* Прозрачная шапка над тёмным hero — светлые логотип, подпись и бургер */
-.header:not(.header--solid) .logo { color: #fff; }
-.header:not(.header--solid) .logo small { color: rgba(255,255,255,.92); }
-.header:not(.header--solid) .burger span { background: #fff; }
 .logo__mark { width: 60px; height: 60px; flex-shrink: 0; border-radius: 12px; }
 .logo__text { line-height: 1.12; }
 .logo small { display: block; font-weight: 600; text-transform: uppercase; }
